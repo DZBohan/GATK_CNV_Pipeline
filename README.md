@@ -92,9 +92,9 @@ samtools view filename.bam
 ```
 Here are the two examples of the bam files.
 
-Image1
+![Image1](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/bam_example_1.png?raw=true)
 
-Image2
+![Image2](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/bam_example_2.png?raw=true)
 
 As you can see in the third column of the two examples, there are two ways, "1" and "chr1", to represent the chromosome 1. It is important to know how to represent the chromosome number in the bam files.
 
@@ -104,7 +104,7 @@ There are usually several bed files for a set of samples. I recommend you to use
 
 Now, let's view a bed file.
 
-Bed
+![Bed](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/bed.png?raw=true)
 
 Three places in the bed file may need to be edited. First, if the file has some header lines, you need to remove them. Second, the first column of the bed file is the chromosome number, so you need to unify the format of the chromosome number, "N" or "chrN" with the bam file of the set of samples. You can use the %s function in vim to edit the bed file. Third, you need to remove the lines, not on chromosomes 1-22 or x and y. Use this command to remove these lines as well as the header.
 
@@ -121,7 +121,7 @@ egrep "^[0-9XY]" filename.bed > filename_edit.bed
 
 Let us view a dictionary file first.
 
-Dict
+![Dict](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/dict.png?raw=true)
 
 The editing of the dictionary file is the same as the bed file. First, use the %s function in vim to unify the format of the chromosome number. Second, use this command to remove the header and lines, not on chromosomes 1-22 or x and y.
 
@@ -139,7 +139,7 @@ egrep "^@SQ SN:[0-9XY]" filename.dict > filename_edit.dict
 
 Geneinfo.txt is the table of information on each gene. It includes genes' locations, names, and ids. Usually, we use GRCh38 as the geneinfo file, and you can directly download the GRCh38 geneinfo file from my GitHub.
 
-Geneinfo
+![Geneinfo](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/geneinfo.png?raw=true)
 
 You do not need to modify the chromosome format ("chrN" or "N") of the geneinfo file since I have a chromosome format judgment step in the CNTools R script.
 
@@ -149,7 +149,7 @@ If you want to use your geneinfo file, you need to remove the duplicate data and
 
 Using this pipeline, you are required to create a bamIdsUniq.txt file. The file should have two columns. The first column is all the tumor bam file names, and the second column is all the normal bam file names. Use commas to separate two columns. Here is an example of what the file looks like.
 
-BamIdsUniq
+![BamIdsUniq](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/bamidsuniq.png?raw=true)
 
 
 ## 4. Environment Setting
@@ -214,7 +214,7 @@ This step aims to generate two intermedia files, `targets.preprocessed.interval_
 
 For inputting the variables and files, you do not need to modify the script, `gatk_cnv_prepare.slurm`, but write them into the config file `config_gatk_cnv_prepare.txt`. Now, let us have a look at the config file.
 
-Config_Prepare
+![Config_Prepare](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/config_prepare.png?raw=true)
 
 There are three variables in this config file, `output_path`, `bed` and `refer`. `output_path` is the path of a directory to store the output files, `targets.preprocessed.interval_list` and `annotated_intervals.tsv`. `bed` is the absolute path of the edited .bed file. `refer` is the absolute path of the .fa file. One important thing is that you should put the .fai in the same directory as the .fa file.
 
@@ -233,7 +233,7 @@ You can do the main step with the two newly generated intermedia files. This ste
 
 For inputting the variables and files, you need to add them into the config file `config_gatk_cnv.txt`. Now, let us have a look at this one.
 
-Config
+![Config](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/config.png?raw=true)
 
 `BAMDIR` is the absolute path of the directory storing bam files. You need to put the set of bam files (bai files as well) in one directory.
 
@@ -267,11 +267,11 @@ sbatch --partition=largemem --nodes=1 --ntasks=1 --cpus-per-task=4 --mem=500GB -
 
 It usually takes 2-5 hours to run the pipeline once, meaning if you set the array as `--array=[1-50]%5`, it will take 20-50 hours to run all 50 samples. After running the main step, you will get a set of directories, which are the same number as the samples, inside the output directory you set, and the name of each directory is supposed to be the same as the tumor bam's filename.
 
-Output1
+![Output1](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/output1.png?raw=true)
 
 Inside each individual directory, there should be 12 files (five `.seg` files, two `.tsv` files, four `.param` files and a `.png` image) and a directory called `cntools_result`.
 
-Output2
+![Output2](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/output2.png?raw=true)
 
 This main step should have generated several intermedia files, but you cannot see them in the final results since I added a clean-up step in the script. Here I also list all intermedia files generated by this step in case you are interested in them.
 
@@ -332,15 +332,15 @@ The first two tables are the initial and final log2 copy ratio results before an
 
 Therefore, `tumor_bam_filename.cr.igv.seg` and `tumor_bam_filename.af.igv.seg` are the more informative results. You can get the segment-level CNV information by having a look at these two tables. Here are the first ten rows of these two tables.
 
-Cr
+![Cr](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/cr.png?raw=true)
 
-Af
+![Af](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/af.png?raw=true)
 
 ### 6.3 Gene level CNV table
 
 After running the GATK CNV pipeline, there is supposed to be a directory called cntools_result in the output directory, and you can find a file called `tumor_bam_filename.cntools.gatk.txt`.
 
-Cntools
+![Cntools](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/cntools.png?raw=true)
 
 In this file, you can get the genenames, geneids, genes' position, and genes' log2 copy ratio.
 
