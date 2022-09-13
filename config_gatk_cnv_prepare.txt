@@ -1,0 +1,9 @@
+output_path="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/final_script/output"
+
+bed="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/b38_targets_edit.bed"
+
+refer="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/GRCh38.primary_assembly.genome.fa"
+
+
+
+

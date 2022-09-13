@@ -1,0 +1,17 @@
+BAMDIR="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/bam"
+
+FILE="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/bamIdsUniq1.txt"
+
+intlist="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/targets.preprocessed.interval_list"
+
+refer="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/GRCh38.primary_assembly.genome.fa"
+
+output_path="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/scriptstestout/gatk"
+
+inttsv="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/annotated_intervals.tsv"
+
+dict="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/GRCh38.primary_assembly.genome_edit.dict"
+
+geneinfo_path="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/GRCh38_edit.txt"
+
+modelseg_mem="70g"
