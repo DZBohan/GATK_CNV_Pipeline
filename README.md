@@ -1,6 +1,57 @@
 # GATK CNV Pipeline
 
-## 1. Introduction of the Pipeline
+#### Bohan Zhang September 13th
+
+## Index
+
+- [1. Introduction of the Pipeline](#1)
+
+	- [1.1 Preparation step](#1.1)
+
+	- [1.2 CNV analysis step](#1.2)
+
+	- [1.3 Gene level CNV analysis](#1.3)
+
+- [2. Required Files List](#2)
+
+	- [2.1 Same for a set of samples](#2.1)
+
+	- [2.2 Different between samples](#2.2)
+
+- [3. Files Editing](#3)
+
+	- [3.1 Bam files viewing](#3.1)
+
+	- [3.2 Intervals.bed](#3.2)
+
+	- [3.3 Reference.dict](#3.3)
+
+	- [3.4 Geneinfo.txt](#3.4)
+
+	- [3.5 Prepare the bamIdsUniq.txt](#3.5)
+
+- [4. Environment Setting](#4)
+
+	- [4.1 Installation of GATK](#4.1)
+
+	- [4.2 R environment setting](#4.2)
+
+- [5. Introduction of Scripts](#5)
+
+	- [5.1 Preparation step](#5.1)
+
+	- [5.2 Main step](#5.2)
+
+- [6. Introduction of Results](#6)
+
+	- [6.1 CNV plots](#6.1)
+
+	- [6.2 Segment level CNV table](#6.2)
+
+	- [6.3 Gene level CNV table](#6.3)
+
+
+## <h2 id="1">1. Introduction of the Pipeline</h2>
 
 This pipeline uses eight GATK tools and an R package called CNTools. Here are the GATK tools used.
 
@@ -19,7 +70,7 @@ The pipeline is theoretically divided into three steps, the `preparation step`, 
 
 Now, I am going to have a brief introduction to the three steps first.
 
-### 1.1 Preparation step
+### <h2 id="1.1">1.1 Preparation step</h2>
 
 Here is a flowchart of the preparation step. The wave shape stands for files, and the rectangle stands for tools.
 
@@ -27,7 +78,7 @@ Here is a flowchart of the preparation step. The wave shape stands for files, an
 
 This step aims to generate the interval files, including a `.interval_list` file and a `intervals.tsv` file, which are needed in the following step.
 
-### 1.2 CNV analysis step
+### <h2 id="1.2">1.2 CNV analysis step</h2>
 
 Here is also a flowchart of the CNV analysis step.
 
@@ -41,14 +92,14 @@ The denoised step is required before doing the CNV analysis. By doing the denois
 
 The next thing is the CNV analysis. You will use the ModelSegments tool to get the CNV results tables and the PlotModeledSegments tool to get the CNV results plots. The results tables and plots will be introduced in chapter 6.
 
-### 1.3 Gene level CNV analysis
+### <h2 id="1.3">1.3 Gene level CNV analysis</h2>
 
 GATK tools provide the CNV analysis on the segment level. However, if we want to know the CNV of a specific gene, we need to introduce another tool called `CNTools`. With the help of genomic information, CNTools can convert the output table of GATK CNV pipeline from the segment level to the gene level. 
 
 
-## 2. Required Files List
+## <h2 id="2">2. Required Files List</h2>
 
-### 2.1 Same for a set of samples
+### <h2 id="2.1">2.1 Same for a set of samples</h2>
 
 * intervals.bed (exist but need editing)
 * reference.fa (exist)
@@ -57,18 +108,18 @@ GATK tools provide the CNV analysis on the segment level. However, if we want to
 * bamIdsUniq.txt (need to be generated yourself)
 * geneinfo.txt (can be downloaded)
 
-### 2.2 Different between samples
+### <h2 id="2.2">2.2 Different between samples</h2>
 
 * tumor.cram or bam (exist)
 * tumor.crai or bai (along with tumor.carm or bam)
 * normal.cram or bam (exist)
 * normal.crai or bai (along with normal.carm or bam)
 
-## 3. Files Editing
+## <h2 id="3">3. Files Editing</h2>
 
 Two input files, intervals.bed, and reference.dict, need editing. Here is the process of editing these two files.
 
-### 3.1 Bam files viewing
+### <h2 id="3.1">3.1 Bam files viewing</h2>
 
 The first step of editing the files is to view the bam files you are analyzing to see the format people are using to represent different chromosomes.
 
@@ -92,7 +143,7 @@ Here are the two examples of the bam files.
 
 As you can see in the third column of the two examples, there are two ways, "1" and "chr1", to represent the chromosome 1. It is important to know how to represent the chromosome number in the bam files.
 
-### 3.2 Intervals.bed
+### <h2 id="3.2">3.2 Intervals.bed</h2>
 
 There are usually several bed files for a set of samples. I recommend you to use targets.bed or regions.bed.
 
@@ -111,7 +162,7 @@ Or this command if the chromosome numbers are numbers only.
 egrep "^[0-9XY]" filename.bed > filename_edit.bed
 ```
 
-### 3.3 Reference.dict
+### <h2 id="3.3">3.3 Reference.dict</h2>
 
 Let us view a dictionary file first.
 
@@ -129,7 +180,7 @@ Or this command if the chromosome numbers are numbers only.
 egrep "^@SQ SN:[0-9XY]" filename.dict > filename_edit.dict
 ```
 
-### 3.4 Geneinfo.txt
+### <h2 id="3.4">3.4 Geneinfo.txt</h2>
 
 Geneinfo.txt is the table of information on each gene. It includes genes' locations, names, and ids. Usually, we use GRCh38 as the geneinfo file, and you can directly download the GRCh38 geneinfo file from my GitHub.
 
@@ -139,16 +190,16 @@ You do not need to modify the chromosome format ("chrN" or "N") of the geneinfo 
 
 If you want to use your geneinfo file, you need to remove the duplicate data and data, not on chromosomes 1-22 or X and Y.
 
-### 3.5 Prepare the bamIdsUniq.txt
+### <h2 id="3.5">3.5 Prepare the bamIdsUniq.txt</h2>
 
 Using this pipeline, you are required to create a bamIdsUniq.txt file. The file should have two columns. The first column is all the tumor bam file names, and the second column is all the normal bam file names. Use commas to separate two columns. Here is an example of what the file looks like.
 
 ![BamIdsUniq](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/bamidsuniq.png?raw=true)
 
 
-## 4. Environment Setting
+## <h2 id="4">4. Environment Setting</h2>
 
-### 4.1 Installation of GATK
+### <h2 id="4.1">4.1 Installation of GATK</h2>
 
 Download the GATK with the version of 4.2.6.1
 
@@ -182,7 +233,7 @@ export PATH=$PATH:/add/your/path/here/gatk-4.2.6.1
 source ~/.bashrc
 ```
 
-### 4.2 R environment setting
+### <h2 id="4.2">4.2 R environment setting</h2>
 
 In this pipeline, I used R with the version 4.1.2. You need to install four packages, optparse, data.table, ggplot2, and CNTools, in the r/4.1.2.
 
@@ -196,11 +247,11 @@ install.packages("BiocManager")
 BiocManager::install("CNTools")
 ```
 
-## 5. Introduction of Scripts
+## <h2 id="5">5. Introduction of Scripts</h2>
 
 This GATK CNV analysis pipeline includes two main steps put into two Slurm scripts, `gatk_cnv_prepare.slurm` and `gatk_cnv.slurm`. Both scripts have config files, `config_gatk_cnv.txt` and `config_gatk_cnv_prepare.txt`, for inputting the variables or files. In addition, there is an R script, `cntools_gatk.R`, that should be used in the second Slurm script. You can download these five files on GitHub. You should locate these files in the same directory when using the pipeline.
 
-### 5.1 Preparation step
+### <h2 id="5.1">5.1 Preparation step</h2>
 
 The first step, also called the preparation step, is for the whole set of samples since they share the same reference and bed files.
 
@@ -221,7 +272,7 @@ You can modify the memory, time, and other parameters, but they are usually enou
 
 Now, you should have the two new files, `targets.preprocessed.interval_list` and `annotated_intervals.tsv`, in the target directory and be able to go to the next step.
 
-### 5.2 Main step
+### <h2 id="5.2">5.2 Main step</h2>
 
 You can do the main step with the two newly generated intermedia files. This step contains a Slurm script `gatk_cnv.slurm`, a config file `config_gatk_cnv.txt`, and a R script `cntools_gatk.R`.
 
@@ -279,11 +330,11 @@ tumor_bam_name_t.allelicCounts.tsv
 normal_bam_name_g.allelicCounts.tsv
 ```
 
-## 6. Introduction of Results
+## <h2 id="6">6. Introduction of Results</h2>
 
 The results of the GATK can be divided into three categories, CNV plots, segment level CNV table, and gene level CNV table. First, let us have a look at the CNV plots.
 
-### 6.1 CNV plots
+### <h2 id="6.1">6.1 CNV plots</h2>
 
 Here is an example of the GATK pipeline CNV plots.
 
@@ -308,7 +359,7 @@ Second, changes in allele copy number or chromosome ploidy can intrinsically aff
 
 Third, the allele fraction for germline mutations is not 50% because some large germline mutations, such as large insertions or deletions (INDEL), can alter allele copy numbers, even the ploidy. Therefore, the allele fraction should be used to determine tumors' somatic mutations and match normal samples.
 
-### 6.2 Segment level CNV table
+### <h2 id="6.2">6.2 Segment level CNV table</h2>
 
 As I mentioned in chapter 5.2, the GATK CNV pipeline has 12 output files. The `.seg` files are the result tables you are looking for. There are five `.seg` files in total.
 
@@ -330,7 +381,7 @@ Therefore, `tumor_bam_filename.cr.igv.seg` and `tumor_bam_filename.af.igv.seg` a
 
 ![Af](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/af.png?raw=true)
 
-### 6.3 Gene level CNV table
+### <h2 id="6.3">6.3 Gene level CNV table</h2>
 
 After running the GATK CNV pipeline, there is supposed to be a directory called cntools_result in the output directory, and you can find a file called `tumor_bam_filename.cntools.gatk.txt`.
 
