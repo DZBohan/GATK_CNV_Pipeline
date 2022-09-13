@@ -37,19 +37,13 @@ In this step, you are first collecting the read counts of both the tumor bam fil
 
 The denoised step is required before doing the CNV analysis. By doing the denoised step, you will get a more straightforward plot, which can help you know the CNV of a sample easier. The denoised step is also one of the advantages of the GATK CNV analysis process.
 
-Denoised
+![Denoised](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/denoised.png?raw=true)
 
 The next thing is the CNV analysis. You will use the ModelSegments tool to get the CNV results tables and the PlotModeledSegments tool to get the CNV results plots. The results tables and plots will be introduced in chapter 6.
 
 ### 1.3 Gene level CNV analysis
 
-GATK tools provide the CNV analysis on the segment level. Here is an output table of the GATK CNV pipeline.
-
-GATK_table
-
-However, if we want to know the CNV of a specific gene, we need to introduce another tool called `CNTools`. With the help of genomic information, CNTools can convert the output table of GATK CNV pipeline from the segment level to the gene level. Here is a final output table of CNTools.
-
-CNTools_table
+GATK tools provide the CNV analysis on the segment level. However, if we want to know the CNV of a specific gene, we need to introduce another tool called `CNTools`. With the help of genomic information, CNTools can convert the output table of GATK CNV pipeline from the segment level to the gene level. 
 
 
 ## 2. Required Files List
