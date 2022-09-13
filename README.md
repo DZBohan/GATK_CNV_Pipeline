@@ -287,7 +287,7 @@ The results of the GATK can be divided into three categories, CNV plots, segment
 
 Here is an example of the GATK pipeline CNV plots.
 
-CNV_plots
+![CNV_plots](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/Sample1.modeled.png?raw=true)
 
 You can finally get two plots from running the GATK pipeline on a set of tumor normal samples. The x-axis of both plots shows the different segments on different chromosomes. The difference between the two plots is the y-axis. 
 
