@@ -21,9 +21,9 @@ Now, I am going to have a brief introduction to the three steps first.
 
 ### 1.1 Preparation step
 
-Here is a flowchart of the preparation step. 
+Here is a flowchart of the preparation step. The wave shape stands for files, and the rectangle stands for tools.
 
-Prestep_flow
+![Prestep_flow](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/preflow.png?raw=true)
 
 This step aims to generate the interval files, including a `.interval_list` file and a `intervals.tsv` file, which are needed in the following step.
 
@@ -31,7 +31,7 @@ This step aims to generate the interval files, including a `.interval_list` file
 
 Here is also a flowchart of the CNV analysis step.
 
-CNA_flow
+![CNA_flow](https://github.com/DZBohan/GATK_CNV_Pipeline/blob/main/images/mainflow.png?raw=true)
 
 In this step, you are first collecting the read counts of both the tumor bam file and the normal bam file and collecting allelic counts of both the bam files. Then, you are supposed to generate a panel using the normal bam file.
 
