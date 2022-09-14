@@ -186,6 +186,8 @@ Or this command if the chromosome numbers are numbers only.
 egrep "^@SQ SN:[0-9XY]" filename.dict > filename_edit.dict
 ```
 
+One important thing is when saving a new `filename_edit.dict` file, you must keep the original `filename.dict` file in the same place along with the `filename.fa` file.
+
 ### <h2 id="3.4">3.4 Geneinfo.txt</h2>
 
 Geneinfo.txt is the table of information on each gene. It includes genes' locations, names, and ids. Usually, we use GRCh38 as the geneinfo file, and you can directly download the GRCh38 geneinfo file from my GitHub.
