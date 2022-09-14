@@ -349,7 +349,7 @@ normal_bam_name_g.allelicCounts.tsv
 
 ## <h2 id="6">6. Introduction of Results</h2>
 
-The results of the GATK can be divided into three categories, CNV plots, segment level CNV table, and gene level CNV table. First, let us have a look at the CNV plots.
+The results of the GATK CNV pipelilne can be divided into three categories, CNV plots, segment level CNV table, and gene level CNV table. First, let us have a look at the CNV plots.
 
 ### <h2 id="6.1">6.1 CNV plots</h2>
 
