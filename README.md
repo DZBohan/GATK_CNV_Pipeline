@@ -36,7 +36,7 @@
 
 	- [4.2 R environment setting](#4.2)
 
-	- [4.3 HPC module loading](#4.3)
+	- [4.3 HPC modules loading](#4.3)
 
 - [5. Introduction of Scripts](#5)
 
@@ -253,7 +253,7 @@ install.packages("BiocManager")
 BiocManager::install("CNTools")
 ```
 
-### <h2 id="4.3">4.3 HPC module loading</h2>
+### <h2 id="4.3">4.3 HPC modules loading</h2>
 
 In this pipeline, I load four modules on the HPC. They are avaliable on the USC CARC, so if you are using another HPC, please whether these modules are avaliable.
 
