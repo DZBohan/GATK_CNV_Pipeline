@@ -255,7 +255,7 @@ BiocManager::install("CNTools")
 
 ### <h2 id="4.3">4.3 HPC modules loading</h2>
 
-In this pipeline, I load four modules on the HPC. They are avaliable on the USC CARC, so if you are using another HPC, please whether these modules are avaliable.
+In this pipeline, I load four modules on the HPC. They are avaliable on the USC CARC, so if you are using another HPC, please check whether these modules are avaliable.
 
 * module load gcc/11.2.0
 * module load jdk/17.0.1
@@ -266,7 +266,7 @@ You don't need to load the modules yourself since I have written them inside the
 
 ## <h2 id="5">5. Introduction of Scripts</h2>
 
-This GATK CNV analysis pipeline includes two main steps put into two Slurm scripts, `gatk_cnv_prepare.slurm` and `gatk_cnv.slurm`. Both scripts have config files, `config_gatk_cnv.txt` and `config_gatk_cnv_prepare.txt`, for inputting the variables or files. In addition, there is an R script, `cntools_gatk.R`, that should be used in the second Slurm script. You can download these five files on GitHub. You should locate these files in the same directory when using the pipeline.
+This GATK CNV analysis pipeline includes two Slurm scripts, `gatk_cnv_prepare.slurm` and `gatk_cnv.slurm`. Both scripts have config files, `config_gatk_cnv.txt` and `config_gatk_cnv_prepare.txt`, for inputting the variables or files. In addition, there is an R script, `cntools_gatk.R`, that should be used in the second Slurm script. You can download these five files on GitHub. You should locate these files in the same directory when using the pipeline.
 
 ### <h2 id="5.1">5.1 Preparation step</h2>
 
