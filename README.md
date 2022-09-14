@@ -14,9 +14,9 @@
 
 - [2. Required Files List](#2)
 
-	- [2.1 Same for a set of samples](#2.1)
+	- [2.1 Project level files](#2.1)
 
-	- [2.2 Different between samples](#2.2)
+	- [2.2 Sample level files](#2.2)
 
 - [3. Files Editing](#3)
 
@@ -35,6 +35,8 @@
 	- [4.1 Installation of GATK](#4.1)
 
 	- [4.2 R environment setting](#4.2)
+
+	- [4.3 HPC module loading](#4.3)
 
 - [5. Introduction of Scripts](#5)
 
@@ -99,7 +101,9 @@ GATK tools provide the CNV analysis on the segment level. However, if we want to
 
 ## <h2 id="2">2. Required Files List</h2>
 
-### <h2 id="2.1">2.1 Same for a set of samples</h2>
+### <h2 id="2.1">2.1 Project level files</h2>
+
+These six files are the same among different samples in one project.
 
 * intervals.bed (exist but need editing)
 * reference.fa (exist)
@@ -108,7 +112,9 @@ GATK tools provide the CNV analysis on the segment level. However, if we want to
 * bamIdsUniq.txt (need to be generated yourself)
 * geneinfo.txt (can be downloaded)
 
-### <h2 id="2.2">2.2 Different between samples</h2>
+### <h2 id="2.2">2.2 Sample level files</h2>
+
+These four files are sample-specific.
 
 * tumor.cram or bam (exist)
 * tumor.crai or bai (along with tumor.carm or bam)
@@ -247,6 +253,17 @@ install.packages("BiocManager")
 BiocManager::install("CNTools")
 ```
 
+### <h2 id="4.3">4.3 HPC module loading</h2>
+
+In this pipeline, I load four modules on the HPC. They are avaliable on the USC CARC, so if you are using another HPC, please whether these modules are avaliable.
+
+* module load gcc/11.2.0
+* module load jdk/17.0.1
+* module load openblas/0.3.18
+* module load r/4.1.2
+
+You don't need to load the modules yourself since I have written them inside the scripts. If some of the modules are not avaliable on the HPC you are using, try to install the programs yourself.
+
 ## <h2 id="5">5. Introduction of Scripts</h2>
 
 This GATK CNV analysis pipeline includes two main steps put into two Slurm scripts, `gatk_cnv_prepare.slurm` and `gatk_cnv.slurm`. Both scripts have config files, `config_gatk_cnv.txt` and `config_gatk_cnv_prepare.txt`, for inputting the variables or files. In addition, there is an R script, `cntools_gatk.R`, that should be used in the second Slurm script. You can download these five files on GitHub. You should locate these files in the same directory when using the pipeline.
@@ -302,7 +319,7 @@ After completing the config file, you can submit the Slurm script, `gatk_cnv.slu
 sbatch --nodes=1 --ntasks=1 --cpus-per-task=4 --mem=80GB --time=8:00:00 --array=[1-2]%2 gatk_cnv.slurm
 ```
 
-The parameter of the array depends on the number of samples you want to do. For example, if you have 50 samples requiring CNV analysis, and you want to run five jobs each time, you are supposed to set the array parameter as `--array=[1-50]%5`.
+The parameter of the array depends on the number of samples you want to do. In other word, the total number of the array is supposed to be the same as the number of rows in the `bamIdsUniq.txt` files. The details of `bamIdsUniq.txt` can be found in the chapter 3.5. For example, if you have 50 samples requiring CNV analysis, and you want to run five jobs each time, you are supposed to set the array parameter as `--array=[1-50]%5`.
 
 I set the default value of the memory parameter as 80GB since the ModuleSegments step usually requires 70GB. If your sample's bam files are too large, you may face an error called `java out of memory`. You can change the parameter of `partition` into `largemem`, and set the larger value of both `mem` parameter and the `modelseg_mem` variable inside the `config_gatk_cnv.txt` file. Here is an example of the large bams' jobs.
 
